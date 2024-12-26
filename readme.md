@@ -1,4 +1,4 @@
-# ppt-pdf-docs-parser
+# MultiParser
 
 A powerful npm package for parsing text from PowerPoint, PDF, and Word documents. This tool seamlessly extracts text, making it easier to analyze, process, and integrate with your applications.
 
@@ -15,48 +15,45 @@ A powerful npm package for parsing text from PowerPoint, PDF, and Word documents
 Install the package via npm:
 
 ```bash
-npm install ppt-pdf-docs-parser
+npm install multiparser
 ```
 
 ## Usage
 
 Here's how to use the package in your project:
 
-```bash
-import parser from 'ppt-pdf-docs-parser';
+- For parsing whole pdf:
 
-// Parse PPT file
-parser.parsePPT('path/to/presentation.ppt').then((text) => {
+```bash
+import Parser from 'multiparser';
+
+// Parse file
+const parser = new Parser(filePath);
+
+parser.extractAll().then((text) =>{
     console.log(text);
-});
+  }).catch((error) => {
+    console.error("Error extracting text:", error);
+  });
 ```
 
-# API
-
-## parse(filePath)
-
-- filePath: The path to the file (PPT, PDF, or DOCX) to be parsed.
-- Returns: A promise that resolves to the extracted text.
-
-# Examples
+- For parsing a particular page:
 
 ```bash
-import parser from 'ppt-pdf-docs-parser';
+import parser from 'multiparser';
 
-// Example for parsing PPT
-parser.parse('example.ppt').then((text) => {
-    console.log('PPT Text:', text);
-});
+const parser = new Parser(filePath);
 
-// Example for parsing PDF
-parser.parse('example.pdf').then((text) => {
-    console.log('PDF Text:', text);
-});
+parser
+  .extractPage(pageNo)
+  .then((text) => {
+    console.log("Page 3 text:", text);
+  })
+  .catch((error) => {
+    console.error("Error extracting text:", error);
+  });
 
-// Example for parsing DOCX
-parser.parse('example.docx').then((text) => {
-    console.log('DOCX Text:', text);
-});
+ // Currently this feature is not available for docx
 ```
 
 # Contributing
