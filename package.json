@@ -1,0 +1,17 @@
+{
+  "name": "convert-pdf-to-text",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "mammoth": "^1.8.0",
+    "pdf.js-extract": "^0.2.1",
+    "xml2js": "^0.6.2"
+  }
+}
