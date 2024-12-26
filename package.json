@@ -4,6 +4,7 @@
   "description": "A Text extracting package docx, pdf and pptx files",
   "main": "index.js",
   "type": "module",
+  "private": false,
   "scripts": {
     "start": "node index.js",
     "test": "node tests/test.js",
