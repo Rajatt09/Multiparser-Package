@@ -22,12 +22,11 @@ npm install multiparser
 
 Here's how to use the package in your project:
 
-- For parsing whole pdf:
+- For parsing whole file:
 
 ```bash
 import Parser from 'multiparser';
 
-// Parse file
 const parser = new Parser(filePath);
 
 parser.extractAll().then((text) =>{
@@ -40,7 +39,7 @@ parser.extractAll().then((text) =>{
 - For parsing a particular page:
 
 ```bash
-import parser from 'multiparser';
+import Parser from 'multiparser';
 
 const parser = new Parser(filePath);
 
@@ -53,7 +52,7 @@ parser
     console.error("Error extracting text:", error);
   });
 
- // Currently this feature is not available for docx
+ // Currently this feature is not available for word documents
 ```
 
 # Contributing
