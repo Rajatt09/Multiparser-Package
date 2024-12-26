@@ -15,7 +15,7 @@ A powerful npm package for parsing text from PowerPoint, PDF, and Word documents
 Install the package via npm:
 
 ```bash
-npm install multiparser
+npm install @xoxoharsh/multiparser
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ Here's how to use the package in your project:
 - For parsing whole file:
 
 ```bash
-import Parser from 'multiparser';
+import Parser from '@xoxoharsh/multiparser';
 
 const parser = new Parser(filePath);
 
@@ -39,7 +39,7 @@ parser.extractAll().then((text) =>{
 - For parsing a particular page:
 
 ```bash
-import Parser from 'multiparser';
+import Parser from '@xoxoharsh/multiparser';
 
 const parser = new Parser(filePath);
 
@@ -55,18 +55,6 @@ parser
  // Currently this feature is not available for word documents
 ```
 
-# Contributing
+## Contributing
 
-We welcome contributions! Please read our contributing guidelines before getting started.
-
-# Acknowledgements
-
-Thank you to all the contributors and users for their support!
-
-# Contributors
-
-- Harsh Sharma
-
-- Yash Mittal
-
-- Rajat Bhati
+We welcome contributions!

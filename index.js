@@ -1,6 +1,6 @@
-import PdfTextExtractor from "./pdf_extract.js";
-import DocxTextExtractor from "./docx_extract.js";
-import PptxTextExtractor from "./pptx_extract.js";
+import PdfTextExtractor from "./scripts/pdf_extract.js";
+import DocxTextExtractor from "./scripts/docx_extract.js";
+import PptxTextExtractor from "./scripts/pptx_extract.js";
 
 class Parser {
   constructor(filePath) {

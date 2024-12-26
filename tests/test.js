@@ -1,6 +1,9 @@
-import Parser from "./index.js";
+import Parser from "../index.js";
+import path from "path";
 
-const filePath = "text_pdf.pdf";
+const __dirname = path.resolve();
+
+const filePath = path.join(__dirname, "tests", "test_pdf.pdf");
 const parser = new Parser(filePath);
 // Extract all text from the PDF
 
@@ -25,7 +28,8 @@ parser
   });
 
 // Extract all text from a PPTX file
-const pptxFilePath = "test_ppt.pptx";
+
+const pptxFilePath = path.join(__dirname, "tests", "test_ppt.pptx");
 
 const pptxParser = new Parser(pptxFilePath);
 pptxParser
@@ -48,7 +52,8 @@ pptxParser
   });
 
 // Extract text from a DOCX file
-const docxFilePath = "test_docx.docx";
+const docxFilePath = path.join(__dirname, "tests", "test_doc.docx");
+
 const docxParser = new Parser(docxFilePath);
 
 docxParser
@@ -68,11 +73,3 @@ docxParser
   .catch((error) => {
     console.error("Error extracting text:", error);
   });
-
-// Validate file existence and extension
-try {
-  const extension = docxParser.validateFile(docxFilePath);
-  console.log("File extension:", extension);
-} catch (error) {
-  console.error("Error:", error.message);
-}
