@@ -1,9 +1,17 @@
 {
-  "name": "convert-pdf-to-text",
+  "name": "all-in-one-pdf-pptx-docx-to-text",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "version:patch": "npm version patch && git push && git push --tags && npm publish --access public",
+    "version:minor": "npm version minor && git push && git push --tags && npm publish --access public",
+    "version:major": "npm version major && git push && git push --tags && npm publish --access public",
+    "publish:patch": "git add . && git commit -m \"patch update\" && npm run version:patch",
+    "publish:minor": "git add . && git commit -m \"minor update\" && npm run version:minor",
+    "publish:major": "git add . && git commit -m \"major update\" && npm run version:major"
+   
   },
   "author": "",
   "license": "ISC",

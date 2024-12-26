@@ -1,23 +1,67 @@
-import DocumentTextExtractor from './index.js';
 
-async function main() {
-  const extractor = new DocumentTextExtractor();
-  
-  try {
-    const pdf_text = await extractor.extract('text_pdf.pdf');
-    console.log('Extracted Text:', pdf_text);
 
-    // Extract text from a DOCX file
-    const docx_text = await extractor.extract('test_docx.docx');
-    console.log('Extracted Text:', docx_text);
+import Parser from './index.js';
 
-    // Extract text from a PPTX file
-    const pptx_text = await extractor.extract('test_ppt.pptx');
-    console.log('Extracted Text:', pptx_text);
+const filePath = "text_pdf.pdf";
+const parser = new Parser(filePath);
+// Extract all text from the PDF
 
-  } catch (error) {
+parser.extractAll()
+    
+  .then((text) => {
+    console.log('Full PDF text:', text);
+  })
+  .catch((error) => {
+    console.error('Error extracting text:', error);
+  });
+
+// Extract text from page 3 of the PDF
+parser.extractPage(3)
+  .then((text) => {
+    console.log('Page 3 text:', text);
+  })
+  .catch((error) => {
+    console.error('Error extracting text:', error);
+  });
+
+// Extract all text from a PPTX file
+const pptxFilePath = "test_ppt.pptx";
+
+const pptxParser = new Parser(pptxFilePath);
+pptxParser.extractAll()
+  .then((text) => {
+    console.log('Full PPTX text:', text);
+  })
+  .catch((error) => {
+    console.error('Error extracting text:', error);
+  });
+
+// Extract text from slide 2 of a PPTX
+pptxParser.extractSlide(2)
+  .then((text) => {
+    console.log('Slide 2 text:', text);
+  })
+  .catch((error) => {
+    console.error('Error extracting text:', error);
+  });
+
+// Extract text from a DOCX file
+const docxFilePath = "test_docx.docx";
+const docxParser = new Parser(docxFilePath);
+
+docxParser.extractAll()
+    .then((text) => {
+        console.log('Full DOCX text:', text);
+    })
+    .catch((error) => {
+        console.error('Error extracting text:', error);
+    });
+
+// Validate file existence and extension
+try {
+    const extension = docxParser.validateFile(docxFilePath);
+    console.log('File extension:', extension);
+} catch (error) {
     console.error('Error:', error.message);
-  }
 }
 
-main();
