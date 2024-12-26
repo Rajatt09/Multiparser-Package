@@ -36,7 +36,9 @@ class DocumentTextExtractor {
   async extractDocxText(filePath) {
     try {
       const fileBuffer = fs.readFileSync(filePath);
-      const { value: text } = await mammoth.extractRawText({ buffer: fileBuffer });
+      const { value: text } = await mammoth.extractRawText({
+        buffer: fileBuffer,
+      });
       return text;
     } catch (error) {
       console.error("Error extracting text from DOCX:", error);
@@ -51,35 +53,63 @@ class DocumentTextExtractor {
    */
   async extractPptxText(filePath) {
     try {
+      // Read the file
       const data = fs.readFileSync(filePath);
       const zip = new JSZip();
+
+      // Load the PPTX file (it's actually a ZIP file)
       const content = await zip.loadAsync(data);
 
-      const slideFiles = Object.keys(content.files).filter((name) =>
-        name.startsWith("ppt/slides/slide")
-      );
-
-      const allSlideTexts = [];
-      for (let i = 0; i < slideFiles.length; i++) {
-        const slideXml = await content.file(slideFiles[i]).async("text");
-        const result = await xml2js.parseStringPromise(slideXml);
-        const texts = [];
-
-        const shapes = result["p:sld"]["p:cSld"][0]["p:spTree"][0]["p:sp"] || [];
-        shapes.forEach((shape) => {
-          const textContent = shape["p:txBody"]?.[0]?.["a:p"]
-            ?.map((p) => p["a:r"]?.map((r) => r["a:t"]?.[0]).join(""))
-            .join(" ");
-          if (textContent) texts.push(textContent);
+      const slideFiles = Object.keys(content.files)
+        .filter((name) => name.startsWith("ppt/slides/slide"))
+        .sort((a, b) => {
+          const slideNumberA = parseInt(
+            a.replace("ppt/slides/slide", "").replace(".xml", "")
+          );
+          const slideNumberB = parseInt(
+            b.replace("ppt/slides/slide", "").replace(".xml", "")
+          );
+          return slideNumberA - slideNumberB;
         });
 
-        allSlideTexts.push(`Slide ${i + 1}: ${texts.join(" ")}`);
-      }
+      // console.log(slideFiles);
 
+      const allSlideTexts = [];
+
+      // Process each slide
+      for (let i = 0; i < slideFiles.length; i++) {
+        // Extract the XML content of the slide
+        const slideXml = await content.file(slideFiles[i]).async("text");
+        const result = await xml2js.parseStringPromise(slideXml);
+
+        // Get all text elements from the slide
+        let slideText = "";
+        const shapes =
+          result["p:sld"]["p:cSld"][0]["p:spTree"][0]["p:sp"] || [];
+
+        // Extract text from each shape
+        shapes.forEach((shape) => {
+          if (shape["p:txBody"]) {
+            const textElements = shape["p:txBody"][0]["a:p"] || [];
+            textElements.forEach((textElement) => {
+              const textRuns = textElement["a:r"] || [];
+              textRuns.forEach((textRun) => {
+                const text = textRun["a:t"]?.[0];
+                if (text) {
+                  slideText += text.trim() + " ";
+                }
+              });
+            });
+          }
+        });
+
+        // Print the slide text
+        allSlideTexts.push(`Slide ${i + 1} Text: ${slideText.join(" ")}`);
+        // console.log(`Slide ${i + 1} Text: ${slideText.trim()}`);
+      }
       return allSlideTexts.join("\n");
     } catch (error) {
-      console.error("Error extracting text from PPTX:", error);
-      throw error;
+      console.error("Error extracting text:", error);
     }
   }
 
